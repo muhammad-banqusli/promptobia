@@ -1,9 +1,10 @@
-"use client"
+"use client";
 
 import { useSession } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import PromptCard from "@app/components/PromptCard";
+import { Suspense } from "react";
 
 const Tag = () => {
     const { data: session } = useSession();
@@ -56,9 +57,8 @@ const Tag = () => {
     let content;
 
     const handleTagClick = (tag) => {
-        router.push(`/tag?tag=${tag}`)
+        router.push(`/tag?tag=${tag}`);
     };
-
 
     if (tag)
         content = (
@@ -67,25 +67,25 @@ const Tag = () => {
                     <span className="blue_gradient">#{tag}</span>
                 </h1>
                 <p className="desc text-left">#{tag} related prompts</p>
-                <div className="mt-16 prompt_layout">
-                    {posts.map((post) => (
-                        <PromptCard
-                            key={post._id}
-                            post={post}
-                            handleEdit={() => handleEdit(post)}
-                            handleDelete={() => handleDelete(post)}
-                            handleTagClick={handleTagClick}
-                        />
-                    ))}
-                </div>
+                <Suspense>
+                    <div className="mt-16 prompt_layout">
+                        {posts.map((post) => (
+                            <PromptCard
+                                key={post._id}
+                                post={post}
+                                handleEdit={() => handleEdit(post)}
+                                handleDelete={() => handleDelete(post)}
+                                handleTagClick={handleTagClick}
+                            />
+                        ))}
+                    </div>
+                </Suspense>
             </section>
         );
     else
         content = (
             <section className="w-full">
-                
                 <p className="desc text-left">no tag was given</p>
-                
             </section>
         );
 
