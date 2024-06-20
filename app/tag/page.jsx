@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import PromptCard from "@app/components/PromptCard";
 import { Suspense } from "react";
 
-export const Tag = () => {
+ const Tag = () => {
     const { data: session } = useSession();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -91,4 +91,4 @@ export const Tag = () => {
     return <Suspense>{content}</Suspense>;
 };
 
-
+export default Tag;
