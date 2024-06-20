@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { connectToDB } from "@utils/database";
 import User from "@models/user";
 
-const hanlder = NextAuth({
+const handler = NextAuth({
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_ID,
@@ -35,20 +35,21 @@ const hanlder = NextAuth({
                     email: profile.email,
                 });
                 // if not, create a new user
+               
                 if (!userExists) {
                     await User.create({
                         email: profile.email,
-                        username: profile.name.replace(" ", "").toLowerCase(),
+                        username: profile.name.replaceAll(" ", "").toLowerCase().slice(0,19),
                         image: profile.picture,
                     });
                 }
                 return true;
             } catch (error) {
-                console.log(error);
+                console.log("Error checking if user exists: ", error.message);
                 return false;
             }
         },
     },
 });
 
-export { hanlder as GET, hanlder as POST };
+export { handler as GET, handler as POST };
