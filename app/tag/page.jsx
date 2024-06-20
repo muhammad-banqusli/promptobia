@@ -67,19 +67,18 @@ const Tag = () => {
                     <span className="blue_gradient">#{tag}</span>
                 </h1>
                 <p className="desc text-left">#{tag} related prompts</p>
-                <Suspense>
-                    <div className="mt-16 prompt_layout">
-                        {posts.map((post) => (
-                            <PromptCard
-                                key={post._id}
-                                post={post}
-                                handleEdit={() => handleEdit(post)}
-                                handleDelete={() => handleDelete(post)}
-                                handleTagClick={handleTagClick}
-                            />
-                        ))}
-                    </div>
-                </Suspense>
+
+                <div className="mt-16 prompt_layout">
+                    {posts.map((post) => (
+                        <PromptCard
+                            key={post._id}
+                            post={post}
+                            handleEdit={() => handleEdit(post)}
+                            handleDelete={() => handleDelete(post)}
+                            handleTagClick={handleTagClick}
+                        />
+                    ))}
+                </div>
             </section>
         );
     else
@@ -89,7 +88,7 @@ const Tag = () => {
             </section>
         );
 
-    return content;
+    return <Suspense>{content}</Suspense>;
 };
 
 export default Tag;
