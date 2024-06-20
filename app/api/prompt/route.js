@@ -1,0 +1,26 @@
+import { connectToDB } from "@utils/database";
+import Prompt from "@models/prompt";
+
+export const GET = async (request) => {
+   const tag = request.nextUrl.searchParams.get('tag')
+
+    console.log(tag)
+
+    try {
+        await connectToDB();
+        let prompts;
+        if (tag !== null) {
+            prompts = await Prompt.find({ tag }).populate("creator");
+        } else {
+            prompts = await Prompt.find({}).populate("creator");
+        }
+
+        return new Response(JSON.stringify(prompts), {
+            status: 200,
+        });
+    } catch (error) {
+        console.log(error)
+        return new Response("Failed to fetch all prompts", { status: 500 });
+
+    }
+};
