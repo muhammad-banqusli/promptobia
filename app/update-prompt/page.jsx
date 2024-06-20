@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 import Form from "@app/components/Form";
 
@@ -33,14 +34,14 @@ const EditPropmpt = () => {
         e.preventDefault();
         setSubmitting(true);
 
-        if(!promptId) return alert("Prompt ID not found")
+        if (!promptId) return alert("Prompt ID not found");
 
         try {
             const response = await fetch(`/api/prompt/${promptId}`, {
                 method: "PATCH",
                 body: JSON.stringify({
                     prompt: post.prompt,
-                    
+
                     tag: post.tag,
                 }),
             });
@@ -54,13 +55,15 @@ const EditPropmpt = () => {
         }
     };
     return (
-        <Form
-            type="Edit"
-            post={post}
-            setPost={setPost}
-            submitting={submitting}
-            handleSubmit={editPrompt}
-        />
+        <Suspense>
+            <Form
+                type="Edit"
+                post={post}
+                setPost={setPost}
+                submitting={submitting}
+                handleSubmit={editPrompt}
+            />
+        </Suspense>
     );
 };
 export default EditPropmpt;
