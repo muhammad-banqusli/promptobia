@@ -1,7 +1,5 @@
 "use client";
 
-// update-prompt
-
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
